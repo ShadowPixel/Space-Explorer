@@ -7,6 +7,7 @@ public class PlayerShip : MonoBehaviour
 {
     [SerializeField] float _moveSpeed = 12f;
     [SerializeField] float _turnSpeed = 3f;
+    [SerializeField] GameObject particlesToManipulate;
 
     Rigidbody _rb = null;
 
@@ -19,6 +20,18 @@ public class PlayerShip : MonoBehaviour
     {
         MoveShip();
         TurnShip();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKey(KeyCode.W))
+        {
+            particlesToManipulate.SetActive(true);
+        }
+        else
+        {
+            particlesToManipulate.SetActive(false);
+        }
     }
 
     void MoveShip()
