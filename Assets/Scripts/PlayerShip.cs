@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -9,11 +10,16 @@ public class PlayerShip : MonoBehaviour
     [SerializeField] float _turnSpeed = 3f;
     [SerializeField] GameObject particlesToManipulate;
 
+    [Header("Feedback")]
+    [SerializeField] TrailRenderer _trail = null;
+
     Rigidbody _rb = null;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+
+        _trail.enabled = false;
     }
 
     private void FixedUpdate()
@@ -58,5 +64,16 @@ public class PlayerShip : MonoBehaviour
     {
         Debug.Log("Player has been killed!");
         this.gameObject.SetActive(false);
+    }
+
+    public void SetSpeed(float speedChange)
+    {
+        _moveSpeed += speedChange;
+        //audio/visuals
+    }
+
+    public void SetBoosters(bool activeState)
+    {
+        _trail.enabled = activeState;
     }
 }
