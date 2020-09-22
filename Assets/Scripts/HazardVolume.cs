@@ -13,7 +13,14 @@ public class HazardVolume : MonoBehaviour
         if (playerShip != null)
         {
             //execute command
-            playerShip.Kill();
+            StartCoroutine(PlayerKill(playerShip));
         }
+    }
+    IEnumerator PlayerKill(PlayerShip playerShip)
+    {
+        playerShip.Kill();
+        //wait required time
+        yield return new WaitForSeconds(3);
+        Application.LoadLevel(Application.loadedLevel);
     }
 }

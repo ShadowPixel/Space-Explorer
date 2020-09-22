@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
-public class SpeedPowerup : MonoBehaviour
+public class ShrinkPowerup : MonoBehaviour
 {
     [Header("Powerup Settings")]
-    [SerializeField] float _speedIncreaseAmount = 20;
+    [SerializeField] float _sizeChange = 5;
     [SerializeField] float _powerupDuration = 5;
 
     [Header("Setup")]
     [SerializeField] GameObject _visualsToDeactivate = null;
 
     Collider _colliderToDeactivate = null;
-    bool _poweredUp = false;
+    bool _smaller = false;
 
     private void Awake()
     {
@@ -25,10 +26,10 @@ public class SpeedPowerup : MonoBehaviour
     {
         PlayerShip playerShip
             = other.gameObject.GetComponent<PlayerShip>();
-        //check to see if player is valid and not powered up already
-        if (playerShip != null && _poweredUp == false)
+        //check if valid player and not already small
+        if (playerShip != null && _smaller == false)
         {
-            //start the timer for the power up, restart if already started
+            //start timer or restart if already started
             StartCoroutine(PowerupSequence(playerShip));
         }
     }
@@ -36,10 +37,10 @@ public class SpeedPowerup : MonoBehaviour
     IEnumerator PowerupSequence(PlayerShip playerShip)
     {
         //set bool for lockout detection
-        _poweredUp = true;
+        _smaller = true;
 
         ActivatePowerup(playerShip);
-        //simulate disable of object
+        //simulate object disable
         DisableObject();
 
         //wait required time
@@ -49,7 +50,7 @@ public class SpeedPowerup : MonoBehaviour
         EnableObject();
 
         //bool to release lockout
-        _poweredUp = false;
+        _smaller = false;
     }
 
     void ActivatePowerup(PlayerShip playerShip)
@@ -57,18 +58,14 @@ public class SpeedPowerup : MonoBehaviour
         if (playerShip != null)
         {
             //powerup the player
-            playerShip.SetSpeed(_speedIncreaseAmount);
-            //visuals
-            playerShip.SetBoosters(true);
+            playerShip.transform.localScale -= new Vector3(_sizeChange, _sizeChange, _sizeChange);
         }
     }
 
     void DeactivatePowerup(PlayerShip playerShip)
     {
-        //revert player to normal
-        playerShip?.SetSpeed(-_speedIncreaseAmount);
-        //deactivate visuals
-        playerShip?.SetBoosters(false);
+        //revert player back to normal
+        playerShip.transform.localScale += new Vector3(_sizeChange, _sizeChange, _sizeChange);
     }
 
     public void DisableObject()

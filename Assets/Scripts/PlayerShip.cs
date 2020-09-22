@@ -19,6 +19,8 @@ public class PlayerShip : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
 
+        particlesToManipulate.SetActive(false);
+
         _trail.enabled = false;
     }
 
