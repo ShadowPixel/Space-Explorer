@@ -11,6 +11,7 @@ public class ShrinkPowerup : MonoBehaviour
 
     [Header("Setup")]
     [SerializeField] GameObject _visualsToDeactivate = null;
+    [SerializeField] AudioClip _ShrinkSound = null;
 
     Collider _colliderToDeactivate = null;
     bool _smaller = false;
@@ -30,6 +31,7 @@ public class ShrinkPowerup : MonoBehaviour
         if (playerShip != null && _smaller == false)
         {
             //start timer or restart if already started
+            AudioHelper.PlayClip2D(_ShrinkSound, 1);
             StartCoroutine(PowerupSequence(playerShip));
         }
     }

@@ -10,6 +10,7 @@ public class SpeedPowerup : MonoBehaviour
 
     [Header("Setup")]
     [SerializeField] GameObject _visualsToDeactivate = null;
+    [SerializeField] AudioClip _SpeedupSound = null;
 
     Collider _colliderToDeactivate = null;
     bool _poweredUp = false;
@@ -29,6 +30,7 @@ public class SpeedPowerup : MonoBehaviour
         if (playerShip != null && _poweredUp == false)
         {
             //start the timer for the power up, restart if already started
+            AudioHelper.PlayClip2D(_SpeedupSound, 1);
             StartCoroutine(PowerupSequence(playerShip));
         }
     }

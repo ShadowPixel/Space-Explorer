@@ -6,12 +6,15 @@ using UnityEngine;
 
 public class WinVolume : MonoBehaviour
 {
+    [SerializeField] AudioClip _VictorySound = null;
+
     public UnityEngine.UI.Text winText;
 
     private void Start()
     {
         winText.text = "";
     }
+
     private void OnTriggerEnter(Collider other)
     {
         //detect if it's the player ship
@@ -20,6 +23,7 @@ public class WinVolume : MonoBehaviour
         //if vaild, continue
         if (playerShip != null)
         {
+            AudioHelper.PlayClip2D(_VictorySound, 1);
             StartCoroutine(Victory(playerShip));
         }
     }
